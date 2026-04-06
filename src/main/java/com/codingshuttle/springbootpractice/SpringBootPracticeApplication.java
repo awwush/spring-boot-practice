@@ -13,12 +13,15 @@ public class SpringBootPracticeApplication implements CommandLineRunner {
     public SpringBootPracticeApplication(CakeBaker cakeBaker) {
         this.cakeBaker = cakeBaker;
     }
+
     public static void main(String[] args) {
         SpringApplication.run(SpringBootPracticeApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
-        cakeBaker.bakeCake();
+//        module1
+//        cakeBaker.bakeCake();
+//
     }
 }
