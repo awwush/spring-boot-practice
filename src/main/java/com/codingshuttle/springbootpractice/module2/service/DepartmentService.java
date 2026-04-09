@@ -2,6 +2,8 @@ package com.codingshuttle.springbootpractice.module2.service;
 
 import com.codingshuttle.springbootpractice.module2.dto.DepartmentDTO;
 import com.codingshuttle.springbootpractice.module2.entities.DepartmentEntity;
+import com.codingshuttle.springbootpractice.module2.exception.DepartmentNotFoundException;
+import com.codingshuttle.springbootpractice.module2.exception.PasswordInvalidException;
 import com.codingshuttle.springbootpractice.module2.repository.DepartmentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
@@ -25,6 +27,7 @@ public class DepartmentService {
     }
 
     public DepartmentDTO getDepartmentBId(Long departmentId) {
+        isExistsByDepartmentId(departmentId);
         DepartmentEntity departmentEntity = departmentRepository.findById(departmentId).orElse(null);
         return modelMapper.map(departmentEntity, DepartmentDTO.class);
     }
@@ -44,6 +47,7 @@ public class DepartmentService {
     }
 
     public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO, Long departmentId) {
+        isExistsByDepartmentId(departmentId);
         DepartmentEntity toSaveDepartmentEntity = modelMapper.map(departmentDTO, DepartmentEntity.class);
         toSaveDepartmentEntity.setId(departmentId);
         DepartmentEntity departmentEntity = departmentRepository.save(toSaveDepartmentEntity);
@@ -51,8 +55,7 @@ public class DepartmentService {
     }
 
     public DepartmentDTO updatePartialDepartmentById(Map<String, Object> updates, Long departmentId) {
-        boolean exists = departmentRepository.existsById(departmentId);
-        if (!exists) return null;
+        isExistsByDepartmentId(departmentId);
         DepartmentEntity departmentEntity = departmentRepository.findById(departmentId).get();
         updates.forEach((key, value) -> {
             Field fieldToBeUpdated = ReflectionUtils.getRequiredField(DepartmentEntity.class, key);
@@ -64,13 +67,14 @@ public class DepartmentService {
     }
 
     public boolean deleteDepartmentById(Long departmentId) {
-        boolean exists = isExistsByDepartmentId(departmentId);
-        if (!exists) return false;
+        isExistsByDepartmentId(departmentId);
         departmentRepository.deleteById(departmentId);
         return true;
     }
 
-    public boolean isExistsByDepartmentId(Long departmentId) {
-        return departmentRepository.existsById(departmentId);
+    private void isExistsByDepartmentId(Long departmentId) {
+        boolean exists = departmentRepository.existsById(departmentId);
+        if(!exists) throw new DepartmentNotFoundException("Department Not Found");
     }
-}
+
+   }

@@ -25,4 +25,5 @@ public class DepartmentEntity {
 
     private LocalDate createdAt;
 
+    private String password;
 }

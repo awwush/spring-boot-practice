@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/departments")
@@ -28,7 +29,7 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public DepartmentDTO createDepartment(@RequestBody DepartmentDTO departmentDTO) {
+    public DepartmentDTO createDepartment(@RequestBody @Valid DepartmentDTO departmentDTO) {
         return departmentService.createDepartment(departmentDTO);
     }
 

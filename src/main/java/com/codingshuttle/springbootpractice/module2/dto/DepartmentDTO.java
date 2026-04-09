@@ -1,5 +1,6 @@
 package com.codingshuttle.springbootpractice.module2.dto;
 
+import com.codingshuttle.springbootpractice.module2.annotations.Password;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,10 +8,10 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class DepartmentDTO {
     private Long id;
 
@@ -19,4 +20,8 @@ public class DepartmentDTO {
     private Boolean isActive;
 
     private LocalDate createdAt;
+
+    @Password
+    private String password;
+
 }
